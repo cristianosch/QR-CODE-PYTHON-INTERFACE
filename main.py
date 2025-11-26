@@ -8,12 +8,12 @@ import threading
 class QRCodeGenerator:
     def __init__(self, root):
         self.root = root
-        self.root.title("Gerador de QR Codes para Mesas")
+        self.root.title("QR Code Generator for Tables")
         self.root.geometry("500x400")
         self.root.resizable(True, True)
         
-        # Variáveis
-        self.base_url = tk.StringVar(value="https://meusite.com/")
+        # Variables
+        self.base_url = tk.StringVar(value="https://mysite.com/")
         self.num_tables = tk.IntVar(value=15)
         self.output_folder = tk.StringVar(value=os.getcwd())
         self.font_path = tk.StringVar(value="font/Ubuntu-B.ttf")
@@ -22,62 +22,62 @@ class QRCodeGenerator:
         self.create_widgets()
     
     def create_widgets(self):
-        # Frame principal
+        # Main frame
         main_frame = ttk.Frame(self.root, padding="20")
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
-        # Configurar grid weights
+        # Configure grid weights
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         main_frame.columnconfigure(1, weight=1)
         
-        # Título
-        title_label = ttk.Label(main_frame, text="Gerador de QR Codes", 
+        # Title
+        title_label = ttk.Label(main_frame, text="QR Code Generator", 
                                font=("Arial", 16, "bold"))
         title_label.grid(row=0, column=0, columnspan=3, pady=(0, 20))
         
-        # URL base
-        ttk.Label(main_frame, text="URL Base:").grid(row=1, column=0, sticky=tk.W, pady=5)
+        # Base URL
+        ttk.Label(main_frame, text="Base URL:").grid(row=1, column=0, sticky=tk.W, pady=5)
         url_entry = ttk.Entry(main_frame, textvariable=self.base_url, width=40)
         url_entry.grid(row=1, column=1, columnspan=2, sticky=(tk.W, tk.E), pady=5, padx=(5, 0))
         
-        # Número de mesas
-        ttk.Label(main_frame, text="Número de Mesas:").grid(row=2, column=0, sticky=tk.W, pady=5)
+        # Number of tables
+        ttk.Label(main_frame, text="Number of Tables:").grid(row=2, column=0, sticky=tk.W, pady=5)
         tables_spinbox = ttk.Spinbox(main_frame, from_=1, to=1000, textvariable=self.num_tables, width=10)
         tables_spinbox.grid(row=2, column=1, sticky=tk.W, pady=5, padx=(5, 0))
         
-        # Pasta de saída
-        ttk.Label(main_frame, text="Pasta de Saída:").grid(row=3, column=0, sticky=tk.W, pady=5)
+        # Output folder
+        ttk.Label(main_frame, text="Output Folder:").grid(row=3, column=0, sticky=tk.W, pady=5)
         ttk.Entry(main_frame, textvariable=self.output_folder, width=30).grid(row=3, column=1, sticky=(tk.W, tk.E), pady=5, padx=(5, 0))
-        ttk.Button(main_frame, text="Procurar", command=self.browse_folder).grid(row=3, column=2, pady=5, padx=(5, 0))
+        ttk.Button(main_frame, text="Browse", command=self.browse_folder).grid(row=3, column=2, pady=5, padx=(5, 0))
         
-        # Caminho da fonte
-        ttk.Label(main_frame, text="Fonte:").grid(row=4, column=0, sticky=tk.W, pady=5)
+        # Font path
+        ttk.Label(main_frame, text="Font:").grid(row=4, column=0, sticky=tk.W, pady=5)
         ttk.Entry(main_frame, textvariable=self.font_path, width=30).grid(row=4, column=1, sticky=(tk.W, tk.E), pady=5, padx=(5, 0))
-        ttk.Button(main_frame, text="Procurar", command=self.browse_font).grid(row=4, column=2, pady=5, padx=(5, 0))
+        ttk.Button(main_frame, text="Browse", command=self.browse_font).grid(row=4, column=2, pady=5, padx=(5, 0))
         
-        # Botão gerar
-        self.generate_btn = ttk.Button(main_frame, text="Gerar QR Codes", command=self.start_generation)
+        # Generate button
+        self.generate_btn = ttk.Button(main_frame, text="Generate QR Codes", command=self.start_generation)
         self.generate_btn.grid(row=5, column=0, columnspan=3, pady=20)
         
-        # Barra de progresso
+        # Progress bar
         self.progress = ttk.Progressbar(main_frame, mode='determinate')
         self.progress.grid(row=6, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=5)
         
-        # Label de status
-        self.status_label = ttk.Label(main_frame, text="Pronto para gerar QR Codes")
+        # Status label
+        self.status_label = ttk.Label(main_frame, text="Ready to generate QR Codes")
         self.status_label.grid(row=7, column=0, columnspan=3, pady=5)
         
-        # Frame de informações
-        info_frame = ttk.LabelFrame(main_frame, text="Informações", padding="10")
+        # Information frame
+        info_frame = ttk.LabelFrame(main_frame, text="Information", padding="10")
         info_frame.grid(row=8, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=10)
         info_frame.columnconfigure(0, weight=1)
         
-        info_text = """Os QR Codes serão gerados com:
-        • Número da mesa no centro
-        • Nome do arquivo: número.png
-        • Formato: PNG
-        • Os arquivos serão salvos na pasta selecionada"""
+        info_text = """QR Codes will be generated with:
+        • Table number in the center
+        • File name: number.png
+        • Format: PNG
+        • Files will be saved in the selected folder"""
         
         ttk.Label(info_frame, text=info_text, justify=tk.LEFT).grid(row=0, column=0, sticky=tk.W)
     
@@ -92,7 +92,7 @@ class QRCodeGenerator:
             ("All files", "*.*")
         ]
         font_file = filedialog.askopenfilename(
-            title="Selecionar arquivo de fonte",
+            title="Select font file",
             filetypes=filetypes,
             initialdir=os.path.dirname(self.font_path.get()) if self.font_path.get() else os.getcwd()
         )
@@ -103,24 +103,24 @@ class QRCodeGenerator:
         if self.is_generating:
             return
         
-        # Validar entradas
+        # Validate inputs
         if not self.base_url.get().strip():
-            messagebox.showerror("Erro", "Por favor, informe a URL base")
+            messagebox.showerror("Error", "Please enter the base URL")
             return
         
         if self.num_tables.get() < 1:
-            messagebox.showerror("Erro", "O número de mesas deve ser pelo menos 1")
+            messagebox.showerror("Error", "Number of tables must be at least 1")
             return
         
         if not os.path.exists(self.font_path.get()):
-            messagebox.showerror("Erro", "Arquivo de fonte não encontrado")
+            messagebox.showerror("Error", "Font file not found")
             return
         
-        # Criar pasta de saída se não existir
+        # Create output folder if it doesn't exist
         if not os.path.exists(self.output_folder.get()):
             os.makedirs(self.output_folder.get())
         
-        # Iniciar geração em thread separada para não travar a interface
+        # Start generation in separate thread to avoid freezing the interface
         thread = threading.Thread(target=self.generate_qr_codes)
         thread.daemon = True
         thread.start()
@@ -135,29 +135,29 @@ class QRCodeGenerator:
             output_folder = self.output_folder.get()
             font_path = self.font_path.get()
             
-            # Configurar fonte
+            # Configure font
             font_size = 80
             try:
                 font = ImageFont.truetype(font_path, font_size)
             except:
-                # Fallback para fonte padrão se a selecionada falhar
+                # Fallback to default font if selected font fails
                 font = ImageFont.load_default()
-                self.update_status("Usando fonte padrão (fonte selecionada não disponível)")
+                self.update_status("Using default font (selected font not available)")
             
-            # Configurar barra de progresso
+            # Configure progress bar
             self.progress['maximum'] = num_tables
             self.progress['value'] = 0
             
             for table in range(1, num_tables + 1):
-                if not self.is_generating:  # Permitir cancelamento
+                if not self.is_generating:  # Allow cancellation
                     break
                 
                 url = f"{base_url}{table}"
                 
-                # Atualizar status
-                self.update_status(f"Gerando QR Code para mesa {table}/{num_tables}")
+                # Update status
+                self.update_status(f"Generating QR Code for table {table}/{num_tables}")
                 
-                # Gerar QR Code
+                # Generate QR Code
                 qr = qrcode.QRCode(
                     version=1,
                     error_correction=qrcode.constants.ERROR_CORRECT_H,
@@ -172,7 +172,7 @@ class QRCodeGenerator:
 
                 draw = ImageDraw.Draw(img)
 
-                # Criar "espaço em branco" no centro do QR code
+                # Create "white space" in the center of the QR code
                 box_size = 120
                 left = (w - box_size) // 2
                 top = (h - box_size) // 2
@@ -180,30 +180,30 @@ class QRCodeGenerator:
                 bottom = top + box_size
                 draw.rectangle([left, top, right, bottom], fill="white")
 
-                # Escrever o número da mesa dentro do quadrado branco
+                # Write table number inside the white square
                 text = str(table)
                 bbox = draw.textbbox((0, 0), text, font=font)
                 text_w = bbox[2] - bbox[0]
                 text_h = bbox[3] - bbox[1]
                 draw.text(((w - text_w) / 2, (h - text_h) / 2), text, font=font, fill="black")
 
-                # Salvar arquivo
+                # Save file
                 filename = os.path.join(output_folder, f"{table}.png")
                 img.save(filename)
                 
-                # Atualizar progresso
+                # Update progress
                 self.progress['value'] = table
                 self.root.update_idletasks()
             
             if self.is_generating:
-                self.update_status(f"Concluído! {num_tables} QR Codes gerados em: {output_folder}")
-                messagebox.showinfo("Sucesso", f"Geração concluída!\n{num_tables} QR Codes salvos em:\n{output_folder}")
+                self.update_status(f"Completed! {num_tables} QR Codes generated in: {output_folder}")
+                messagebox.showinfo("Success", f"Generation completed!\n{num_tables} QR Codes saved in:\n{output_folder}")
             else:
-                self.update_status("Geração cancelada")
+                self.update_status("Generation cancelled")
                 
         except Exception as e:
-            self.update_status(f"Erro: {str(e)}")
-            messagebox.showerror("Erro", f"Ocorreu um erro durante a geração:\n{str(e)}")
+            self.update_status(f"Error: {str(e)}")
+            messagebox.showerror("Error", f"An error occurred during generation:\n{str(e)}")
         
         finally:
             self.is_generating = False

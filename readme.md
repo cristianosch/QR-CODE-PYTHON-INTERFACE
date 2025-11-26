@@ -22,9 +22,11 @@ A Python desktop application for generating personalized QR codes for restaurant
 
 ✅ Choose destination folder for files
 
+
 ## 🛠️ System Requirements
 Python
 Python 3.6 or higher
+
 
 ## 📥 Installation & Environment Setup
 
@@ -45,6 +47,7 @@ Clone or download the project
 Using Virtual Environment (Recommended)
 
 Windows
+
 	# Create virtual environment
 	python -m venv venv
 
@@ -53,6 +56,7 @@ Windows
 
   
 Linux/Mac	
+
 	# Create virtual environment
 	python3 -m venv venv
 
